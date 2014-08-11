@@ -1,5 +1,5 @@
 ﻿namespace SwarmIntel {
-	partial class Form1 {
+	partial class World {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
