@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SwarmIntel {
 	class Robot {
 		#region Variables
-		const double pi = Math.PI, pi2 = 2 * Math.PI;
+		const double pi = Math.PI, tau = 2 * Math.PI;
 		public int n;
 
 		private double x,  y,  t,  xx,  yy,  tt;
@@ -20,6 +20,8 @@ namespace SwarmIntel {
 		public double XX { get { return xx; } }
 		public double YY { get { return yy; } }
 		public double TT { get { return tt; } }
+
+		public static int scanpower = 30;
 
 		public double width = 16.0, depth = 16.0;
 		public Point fl, fr, bl, br;
@@ -47,8 +49,8 @@ namespace SwarmIntel {
 
 		public void Calc() {
 			double tx = 0, ty = 0, d = 0; int tc = 0;
-			for(double a = 0 ; a < pi2 ; a += 10.0 * pi2 / 360.0)
-				if((d = World.Scan(n, a, 500, 16)) > 0) { tc++; 
+			for(double a = 0 ; a < tau ; a += tau / 60.0)
+				if((d = World.Scan(n, a, scanpower, scanpower / 20)) > 0) { tc++; 
 					tx += (Math.Cos(a) * d); ty += (Math.Sin(a) * d); }
 			if(tc > 0) { dx = x + tx / tc; dy = y + ty / tc; }
 
@@ -74,6 +76,7 @@ namespace SwarmIntel {
 			//gb.DrawLine(Pens.White, x - width / 2 - depth / 2, y - width / 2 - depth / 2, x + width / 2 - depth / 2, y - width / 2 - depth / 2);
 			gb.FillRectangle(b, rect);
 			gb.DrawRectangle(Pens.White, rect);
+			gb.DrawString(n.ToString(), World.DefaultFont, Brushes.White, (int)(x - 4), (int)(y - depth / 2.0 - 20));
 			#endregion Robot
 
 			gb.DrawLine(p, (int)(dx - width / 2), (int)(dy), (int)(dx + width / 2), (int)(dy));
